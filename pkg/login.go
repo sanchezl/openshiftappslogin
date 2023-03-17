@@ -13,7 +13,17 @@ func RetrieveBearerToken(url, username, password string, log func(v ...any)) str
 	page.MustWaitLoad()
 
 	log("Selecting RedHat_Internal_SSO option.")
-	page.MustElement("a").MustClick()
+	var link *rod.Element
+	for _, a := range page.MustElements("a") {
+		if a.MustText() == "RedHat_Internal_SSO" {
+			link = a
+			break
+		}
+	}
+	if link == nil {
+		panic("RedHat_Internal_SSO option not found")
+	}
+	link.MustClick()
 	page.MustWaitLoad()
 
 	log("Logging into Red Hat Internal.")
