@@ -2,10 +2,11 @@ package pkg
 
 import (
 	"github.com/go-rod/rod"
+	"github.com/go-rod/rod/lib/devices"
 )
 
 func RetrieveBearerToken(url, username, password string, log func(v ...any)) string {
-	browser := rod.New().MustConnect()
+	browser := rod.New().DefaultDevice(ChromeOnLinux).MustConnect()
 	defer browser.MustClose()
 
 	log("Requesting oauth token.")
@@ -39,4 +40,12 @@ func RetrieveBearerToken(url, username, password string, log func(v ...any)) str
 
 	log("Extracting token.")
 	return page.MustElement("code").MustText()
+}
+
+var ChromeOnLinux = devices.Device{
+	Title:          "Latest Chrome on Linux",
+	Capabilities:   []string{},
+	UserAgent:      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+	AcceptLanguage: "en",
+	Screen:         devices.Screen{DevicePixelRatio: 1, Horizontal: devices.ScreenSize{Width: 1280, Height: 800}, Vertical: devices.ScreenSize{Width: 800, Height: 1280}},
 }
