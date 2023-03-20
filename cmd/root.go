@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -41,6 +42,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $XDG_CONFIG_HOME/openshiftappslogin/config.yaml)")
+	rootCmd.PersistentFlags().AddGoFlagSet(flag.CommandLine)
 	rootCmd.Flags().StringP("url", "o", "", "Token request URL")
 	rootCmd.Flags().StringP("username", "u", "", "User name")
 	rootCmd.Flags().StringP("password", "p", "", "User password")
